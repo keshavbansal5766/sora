@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist
+dist-ssr
+
+# Local config
+*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Env files (secrets wagairah)
+.env
+.env.local
+.env.*.local
+.env.test.local
+server/.env
+client/.env
+
+# Editor related
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# System files
+.DS_Store
+Thumbs.db
