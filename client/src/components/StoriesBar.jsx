@@ -81,6 +81,8 @@ const StoriesBar = () => {
       {viewStory && (
         <StoryViewer viewStory={viewStory} setViewStory={setViewStory} />
       )}
+
+      {/*  */}
     </div>
   );
 };
