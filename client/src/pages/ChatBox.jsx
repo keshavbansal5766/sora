@@ -96,7 +96,7 @@ const ChatBox = () => {
                 onChange={(e) => setImage(e.target.files[0])}
               />
             </label>
-            <button onClick={sendMessage}>
+            <button className="bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-700 hover:to-purple-800 active:scale-95 cursor-pointer text-white p-2 rounded-full" onClick={sendMessage}>
               <SendHorizontal size={18} />
             </button>
           </div>
