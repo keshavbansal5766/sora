@@ -15,7 +15,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Env files (secrets wagairah)
+# Env files (secrets)
 .env
 .env.local
 .env.*.local
