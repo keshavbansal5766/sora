@@ -21,6 +21,7 @@ export const getUserData = async (req, res) => {
 //  update User Data
 export const updateUserData = async (req, res) => {
   try {
+    console.log("FILES:", req.files);
     const { userId } = req.auth();
     let { username, bio, location, full_name } = req.body;
     const tempUser = await User.findById(userId);
@@ -42,44 +43,36 @@ export const updateUserData = async (req, res) => {
       full_name,
     };
 
-    const profile = req.files.profile && req.files.profile[0];
-    const cover = req.files.cover && req.files.cover[0];
+    const profile = req.files?.profile?.[0];
+    const cover = req.files?.cover?.[0];
 
     if (profile) {
-      const buffer = fs.readFileSync(profile.path);
+      // const buffer = fs.readFileSync(profile.path);
       const response = await imageKit.files.upload({
-        file: buffer,
+        file: fs.createReadStream(profile.path),
         fileName: profile.originalname,
       });
 
-      const url = imageKit.url({
-        path: response.filePath,
-        transformation: [
-          { quality: "auto" },
-          { format: "webp" },
-          { width: 512 },
-        ],
+      const url = imageKit.helper.buildSrc({
+        urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
+        src: response.filePath,
+        transformation: [{ width: 512, quality: "auto", format: "webp" }],
       });
-
       updatedData.profile_picture = url;
     }
 
     if (cover) {
-      const buffer = fs.readFileSync(cover.path);
+      // const buffer = fs.readFileSync(cover.path);
       const response = await imageKit.files.upload({
-        file: buffer,
+        file: fs.createReadStream(cover.path),
         fileName: cover.originalname,
       });
 
-      const url = imageKit.url({
-        path: response.filePath,
-        transformation: [
-          { quality: "auto" },
-          { format: "webp" },
-          { width: 1280 },
-        ],
+      const url = imageKit.helper.buildSrc({
+        urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
+        src: response.filePath,
+        transformation: [{ width: 1280, quality: "auto", format: "webp" }],
       });
-
       updatedData.cover_photo = url;
     }
 
