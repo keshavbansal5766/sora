@@ -37,3 +37,6 @@ client/.env
 # System files
 .DS_Store
 Thumbs.db
+
+
+push.text
