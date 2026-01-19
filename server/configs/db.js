@@ -4,7 +4,7 @@ const connectDB = async () => {
   try {
     console.log("Mongo URL:", process.env.MONGODB_URL);
     mongoose.connection.on("connected", () =>
-      console.log("Database Connected")
+      console.log("Database Connected"),
     );
 
     await mongoose.connect(`${process.env.MONGODB_URL}/sora`);
