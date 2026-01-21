@@ -1,35 +1,7 @@
-import connectDB from "../configs/db.js";
 import imageKit from "../configs/imageKit.js";
 import Connection from "../models/Connection.js";
 import User from "../models/User.js";
 import fs from "fs";
-
-
-// fetch server
-export const connectDatabse = async () => {
-  async (req, res) => {
-    try {
-    console.log("TEXT SAVE HIT");
-
-    await connectDB();
-
-    const { text } = req.body;
-
-    const data = await User.create({ text });
-
-    return res.json({
-      success: true,
-      data,
-    });
-  } catch (err) {
-    console.error("TEXT SAVE ERROR:", err);
-    return res.status(500).json({
-      success: false,
-      error: err.message,
-    });
-  }
-  }
-}
 
 //  Get User Data using userId
 export const getUserData = async (req, res) => {

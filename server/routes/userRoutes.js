@@ -1,7 +1,6 @@
 import express from "express";
 import {
   acceptConnectionRequest,
-  connectDatabse,
   discoveredUsers,
   followUser,
   getUserConnections,
@@ -14,7 +13,7 @@ import { protect } from "../middlewares/auth.js";
 import { upload } from "../configs/multer.js";
 
 const userRouter = express.Router();
-userRouter.post("/text-save", connectDatabse)
+
 userRouter.get("/data", protect, getUserData);
 userRouter.post(
   "/update",
