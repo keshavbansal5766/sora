@@ -9,20 +9,25 @@ import fs from "fs";
 export const connectDatabse = async () => {
   async (req, res) => {
     try {
-      console.log("API HIT");
+    console.log("TEXT SAVE HIT");
 
-      await connectDB(); // ✅ yahin hona chahiye
+    await connectDB();
 
-      const user = await User.create({
-        name: "Test User",
-        email: "test@test.com",
-      });
+    const { text } = req.body;
 
-      res.json({ success: true, user });
-    } catch (err) {
-      console.error("API ERROR:", err.message);
-      res.status(500).json({ error: err.message });
-    }
+    const data = await User.create({ text });
+
+    return res.json({
+      success: true,
+      data,
+    });
+  } catch (err) {
+    console.error("TEXT SAVE ERROR:", err);
+    return res.status(500).json({
+      success: false,
+      error: err.message,
+    });
+  }
   }
 }
 
