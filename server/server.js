@@ -9,7 +9,7 @@ import userRouter from "./routes/userRoutes.js";
 
 const app = express();
 
-await connectDB();
+// await connectDB();
 
 app.use(express.json());
 app.use(cors());
