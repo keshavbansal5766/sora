@@ -1,7 +1,30 @@
+import connectDB from "../configs/db.js";
 import imageKit from "../configs/imageKit.js";
 import Connection from "../models/Connection.js";
 import User from "../models/User.js";
 import fs from "fs";
+
+
+// fetch server
+export const connectDatabse = async () => {
+  async (req, res) => {
+    try {
+      console.log("API HIT");
+
+      await connectDB(); // ✅ yahin hona chahiye
+
+      const user = await User.create({
+        name: "Test User",
+        email: "test@test.com",
+      });
+
+      res.json({ success: true, user });
+    } catch (err) {
+      console.error("API ERROR:", err.message);
+      res.status(500).json({ error: err.message });
+    }
+  }
+}
 
 //  Get User Data using userId
 export const getUserData = async (req, res) => {
