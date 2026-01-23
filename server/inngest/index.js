@@ -15,7 +15,7 @@ const syncUserCreation = inngest.createFunction(
       event.data;
 
     let username = email_addresses[0].email_address.split("@")[0];
-    // heck availability of username
+    // check availability of username
     const user = await User.findOne({ username });
     if (user) {
       username = username + Math.floor(Math.random() * 10000);

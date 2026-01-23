@@ -1,7 +1,7 @@
 import express from "express";
 import {
   acceptConnectionRequest,
-  discoveredUsers,
+  discoverUsers,
   followUser,
   getUserConnections,
   getUserData,
@@ -24,7 +24,7 @@ userRouter.post(
   protect,
   updateUserData,
 );
-userRouter.post("/discover", protect, discoveredUsers);
+userRouter.post("/discover", protect, discoverUsers);
 userRouter.post("/follow", protect, followUser);
 userRouter.post("/unfollow", protect, unFollowUser);
 userRouter.post("/connect", protect, sendConnectionRequest);
