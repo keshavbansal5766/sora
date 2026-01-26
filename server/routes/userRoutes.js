@@ -29,6 +29,6 @@ userRouter.post("/follow", protect, followUser);
 userRouter.post("/unfollow", protect, unFollowUser);
 userRouter.post("/connect", protect, sendConnectionRequest);
 userRouter.post("/accept", protect, acceptConnectionRequest);
-userRouter.post("/connections", protect, getUserConnections);
+userRouter.get("/connections", protect, getUserConnections);
 
 export default userRouter;

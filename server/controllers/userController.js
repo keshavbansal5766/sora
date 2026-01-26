@@ -185,7 +185,7 @@ export const sendConnectionRequest = async (req, res) => {
     const { userId } = req.auth();
     const { id } = req.body;
 
-    // Check if user has more than 20 connection requests in the latest 24 hours
+    // Check if user has more than 20 connection requests in the last 24 hours
     const last24Hours = new Date(Date.now() - 24 * 60 * 60 * 1000);
     const connectionRequests = await Connection.find({
       from_user_id: userId,
@@ -244,11 +244,11 @@ export const getUserConnections = async (req, res) => {
     const followers = user.followers;
     const following = user.following;
 
-    const pendingConnections = await Connection.find({
+    const pendingConnections = (await Connection.find({
       to_user_id: userId,
       status: "pending",
     })
-      .populate("from_user_id")
+      .populate("from_user_id"))
       .map((connection) => connection.from_user_id);
 
     res.json({
@@ -276,21 +276,25 @@ export const acceptConnectionRequest = async (req, res) => {
     });
 
     if (!connection) {
-      return res.json({
-        success: false,
-        message: "Connection not found",
+       return res.status(404).json({
+      success: false,
+      message: "Connection not found",
       });
-    }
+      }
 
-    const user = await User.findById(userId);
-    user.connections.push(id);
-    await user.save();
+    // update both users safely
+    await User.findByIdAndUpdate(
+    userId,
+    { $addToSet: { connections: id } }
+    );
 
-    const toUser = User.findById(id);
-    toUser.connections.push(userId);
-    await user.save();
+    await User.findByIdAndUpdate(
+      id,
+      { $addToSet: { connections: userId } }
+    );
 
-    connection.status("accepted");
+    // update connection status
+    connection.status = "accepted";
     await connection.save();
 
     return res.json({
