@@ -6,7 +6,6 @@ export const addPost = async (req, res) => {
         const {userId} = req.auth()
         const {content, post_type} = req.body
         const images = req.files
-
         let image_urls = []
 
         if(images.length) {
@@ -15,14 +14,13 @@ export const addPost = async (req, res) => {
                     const response = await imageKit.files.upload({
                     file: fs.createReadStream(image.path),
                     fileName: image.originalname,
+                    folder: "posts"
                     });
-
                     const url = imageKit.helper.buildSrc({
                         urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
                         src: response.filePath,
                         transformation: [{ width: 512, quality: "auto", format: "webp" }],
                     });
-
                     return url
                 })
             ) 
