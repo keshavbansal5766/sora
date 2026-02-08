@@ -15,20 +15,20 @@ const StoriesBar = () => {
   const [viewStory, setViewStory] = useState(null);
 
   const fetchStories = async () => {
-    try {
-      const token = await getToken();
-      const { data } = await api.get("/api/story/get", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+    // try {
+    //   const token = await getToken();
+    //   const { data } = await api.get("/api/story/get", {
+    //     headers: { Authorization: `Bearer ${token}` },
+    //   });
 
-      if (data.success) {
-        setStories(data.stories);
-      } else {
-        toast(data.message);
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
+    //   if (data.success) {
+    //     setStories(data.stories);
+    //   } else {
+    //     toast(data.message);
+    //   }
+    // } catch (error) {
+    //   toast.error(error.message);
+    // }
   };
 
   useEffect(() => {
