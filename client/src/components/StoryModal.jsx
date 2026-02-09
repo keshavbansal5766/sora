@@ -53,12 +53,12 @@ const StoryModal = ({ setShowModal, fetchStories }) => {
           }
         };
         video.src = URL.createObjectURL(file);
+      } else if (file.type.startsWith("image")) {
+        setMedia(file);
+        setPreviewUrl(URL.createObjectURL(file));
+        setText("");
+        setMode("media");
       }
-    } else if (file.type.startsWith("image")) {
-      setMedia(file);
-      setPreviewUrl(URL.createObjectURL(file));
-      setText("");
-      setMode("media");
     }
   };
 
