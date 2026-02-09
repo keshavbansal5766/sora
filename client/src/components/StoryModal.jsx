@@ -8,7 +8,7 @@ const StoryModal = ({ setShowModal, fetchStories }) => {
   const bgColors = [
     "#4f46e5",
     "#7c3aed",
-    "#db27777",
+    "#db2777",
     "#e11d48",
     "#ca8a04",
     "#0d9488",
@@ -25,6 +25,8 @@ const StoryModal = ({ setShowModal, fetchStories }) => {
 
   const handleMediaUpload = (e) => {
     const file = e.target.files[0];
+
+    if (!file) return;
 
     if (file) {
       if (file.type.startsWith("video")) {
@@ -75,13 +77,15 @@ const StoryModal = ({ setShowModal, fetchStories }) => {
     let formData = new FormData();
     formData.append("content", text);
     formData.append("media_type", media_type);
-    formData.append("media", media);
+    if (media) {
+      formData.append("media", media);
+    }
     formData.append("background_color", background);
 
     const token = await getToken();
 
     try {
-      const {data} = await api.post("/api/story/create", formData, {
+      const { data } = await api.post("/api/story/create", formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -89,7 +93,7 @@ const StoryModal = ({ setShowModal, fetchStories }) => {
         setShowModal(false);
         toast.success("Story created successfully");
         fetchStories();
-        console.log(data)
+        console.log(data);
       } else {
         toast.error(data.message);
       }
