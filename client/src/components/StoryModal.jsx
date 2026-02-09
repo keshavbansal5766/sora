@@ -75,13 +75,13 @@ const StoryModal = ({ setShowModal, fetchStories }) => {
     let formData = new FormData();
     formData.append("content", text);
     formData.append("media_type", media_type);
-    if (media) formData.append("media", media);
+    formData.append("media", media);
     formData.append("background_color", background);
 
     const token = await getToken();
 
     try {
-      const { data } = await api.post("/api/story/create", formData, {
+      const {data} = await api.post("/api/story/create", formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -89,13 +89,12 @@ const StoryModal = ({ setShowModal, fetchStories }) => {
         setShowModal(false);
         toast.success("Story created successfully");
         fetchStories();
+        console.log(data)
       } else {
         toast.error(data.message);
-        console.log(data.message);
       }
     } catch (error) {
       toast.error(error.message);
-      console.log(error.message);
     }
   };
 
