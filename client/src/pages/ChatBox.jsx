@@ -10,6 +10,7 @@ import {
   fetchMessages,
   resetMessages,
 } from "../features/messages/messagesSlice";
+import toast from "react-hot-toast";
 
 const ChatBox = () => {
   const {messages} = useSelector((state) => state.messages);
@@ -41,6 +42,8 @@ const ChatBox = () => {
       formData.append("to_user_id", userId);
       formData.append("text", text);
       image && formData.append("image", image);
+
+      console.log(formData)
 
       const { data } = await api.post("/api/message/send", formData, {
         headers: { Authorization: `Bearer ${token}` },

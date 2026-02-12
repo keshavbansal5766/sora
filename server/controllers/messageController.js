@@ -1,5 +1,6 @@
 import imageKit from "../configs/imageKit.js";
 import Message from "../models/Message.js";
+import fs from "fs";
 
 // Create an empty object to store ss Event connections
 const connections = {};
