@@ -45,11 +45,26 @@ const App = () => {
         import.meta.env.VITE_BASEURL + "/api/message/" + user.id,
       );
 
+      // eventSource.onmessage = (event) => {
+      //   const message = JSON.parse(event.data);
+      //   if (pathnameRef.current === "/messages/" + message.from_user_id._id) {
+      //     dispatch(addMessage(message));
+      //   } else {
+      //   }
+      // };
+
       eventSource.onmessage = (event) => {
         const message = JSON.parse(event.data);
-        if (pathnameRef.current === "/messages/" + message.from_user_id._id) {
+
+        const activeChatUserId = pathnameRef.current.split("/")[2];
+
+        if (!activeChatUserId) return;
+
+        if (
+          message.from_user_id?._id === activeChatUserId ||
+          message.to_user_id === activeChatUserId
+        ) {
           dispatch(addMessage(message));
-        } else {
         }
       };
 

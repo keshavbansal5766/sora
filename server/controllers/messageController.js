@@ -17,17 +17,31 @@ export const sseController = (req, res) => {
   res.setHeader("Connection", "keep-alive");
   res.setHeader("Access-Control-Allow-Origin", "*");
 
-  //   Add the client's response object to the connections object
-  connections[userId] = res;
+  // //   Add the client's response object to the connections object
+  // connections[userId] = res;
 
-  //   Send an initial event to the client
-  res.write("log: Connected to SSE stream\n\n");
+  // //   Send an initial event to the client
+  // res.write("log: Connected to SSE stream\n\n");
 
-  //   Handle client disconnection
+  // //   Handle client disconnection
+  // req.on("close", () => {
+  //   // Remove the client's response object from the connections array
+  //   delete connections[userId];
+  //   console.log("Client disconnected");
+  // });
+
+  res.flushHeaders(); // 🔥 important
+
+  connections[userId.toString()] = res;
+
+  // heartbeat every 20 sec
+  const interval = setInterval(() => {
+    res.write(":\n\n");
+  }, 20000);
+
   req.on("close", () => {
-    // Remove the client's response object from the connections array
-    delete connections[userId];
-    console.log("Client disconnected");
+    clearInterval(interval);
+    delete connections[userId.toString()];
   });
 };
 
@@ -69,8 +83,26 @@ export const sendMessage = async (req, res) => {
       "from_user_id",
     );
 
-    if (connections[to_user_id]) {
-      connections[to_user_id].write(
+    // if (connections[to_user_id]) {
+    //   connections[to_user_id].write(
+    //     `data: ${JSON.stringify(messageWithUserData)}\n\n`,
+    //   );
+    // }
+
+    // 🔹 Convert to string for safety
+    const receiverId = to_user_id.toString();
+    const senderId = userId.toString();
+
+    // 🔹 Send to receiver if connected
+    if (connections[receiverId]) {
+      connections[receiverId].write(
+        `data: ${JSON.stringify(messageWithUserData)}\n\n`,
+      );
+    }
+
+    // 🔹 Also send to sender (optional but recommended)
+    if (connections[senderId]) {
+      connections[senderId].write(
         `data: ${JSON.stringify(messageWithUserData)}\n\n`,
       );
     }

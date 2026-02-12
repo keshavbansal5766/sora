@@ -35,7 +35,7 @@ const ChatBox = () => {
 
   const sendMessage = async () => {
     try {
-      if (!text && image) return;
+      if (!text && !image) return;
 
       const token = await getToken();
       const formData = new FormData();
