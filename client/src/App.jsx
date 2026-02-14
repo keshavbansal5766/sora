@@ -9,12 +9,13 @@ import Profile from "./pages/Profile";
 import CreatePost from "./pages/CreatePost";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import Layout from "./pages/Layout";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { fetchUser } from "./features/user/userSlice";
 import { fetchConnections } from "./features/connections/connectionsSlice";
 import { addMessage } from "./features/messages/messagesSlice";
+import Notification from "./components/Notifications";
 
 const App = () => {
   const { user } = useUser();
@@ -65,6 +66,10 @@ const App = () => {
           message.to_user_id === activeChatUserId
         ) {
           dispatch(addMessage(message));
+        } else {
+          toast.custom(() => (
+            <Notification />
+          ))
         }
       };
 
