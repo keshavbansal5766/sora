@@ -59,17 +59,16 @@ const App = () => {
 
         const activeChatUserId = pathnameRef.current.split("/")[2];
 
-        if (!activeChatUserId) return;
-
         if (
-          message.from_user_id?._id === activeChatUserId ||
-          message.to_user_id === activeChatUserId
+          activeChatUserId &&
+          (message.from_user_id?._id === activeChatUserId ||
+            message.to_user_id === activeChatUserId)
         ) {
           dispatch(addMessage(message));
         } else {
-          toast.custom(() => (
-            <Notification />
-          ))
+          toast.custom((t) => <Notification t={t} message={message} />, {
+            position: "bottom-right",
+          });
         }
       };
 
